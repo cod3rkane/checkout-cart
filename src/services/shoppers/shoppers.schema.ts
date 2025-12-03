@@ -1,0 +1,52 @@
+// // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
+import { resolve } from '@feathersjs/schema'
+import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
+import type { Static } from '@feathersjs/typebox'
+
+import type { HookContext } from '../../declarations'
+import { dataValidator, queryValidator } from '../../validators'
+import type { ShopperService } from './shoppers.class'
+
+// Main data model schema
+export const shopperSchema = Type.Object(
+  {
+    id: Type.Number(),
+    text: Type.String()
+  },
+  { $id: 'Shopper', additionalProperties: false }
+)
+export type Shopper = Static<typeof shopperSchema>
+export const shopperValidator = getValidator(shopperSchema, dataValidator)
+export const shopperResolver = resolve<ShopperQuery, HookContext<ShopperService>>({})
+
+export const shopperExternalResolver = resolve<Shopper, HookContext<ShopperService>>({})
+
+// Schema for creating new entries
+export const shopperDataSchema = Type.Pick(shopperSchema, ['text'], {
+  $id: 'ShopperData'
+})
+export type ShopperData = Static<typeof shopperDataSchema>
+export const shopperDataValidator = getValidator(shopperDataSchema, dataValidator)
+export const shopperDataResolver = resolve<ShopperData, HookContext<ShopperService>>({})
+
+// Schema for updating existing entries
+export const shopperPatchSchema = Type.Partial(shopperSchema, {
+  $id: 'ShopperPatch'
+})
+export type ShopperPatch = Static<typeof shopperPatchSchema>
+export const shopperPatchValidator = getValidator(shopperPatchSchema, dataValidator)
+export const shopperPatchResolver = resolve<ShopperPatch, HookContext<ShopperService>>({})
+
+// Schema for allowed query properties
+export const shopperQueryProperties = Type.Pick(shopperSchema, ['id', 'text'])
+export const shopperQuerySchema = Type.Intersect(
+  [
+    querySyntax(shopperQueryProperties),
+    // Add additional query properties here
+    Type.Object({}, { additionalProperties: false })
+  ],
+  { additionalProperties: false }
+)
+export type ShopperQuery = Static<typeof shopperQuerySchema>
+export const shopperQueryValidator = getValidator(shopperQuerySchema, queryValidator)
+export const shopperQueryResolver = resolve<ShopperQuery, HookContext<ShopperService>>({})
