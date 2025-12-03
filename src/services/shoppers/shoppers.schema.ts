@@ -11,7 +11,8 @@ import type { ShopperService } from './shoppers.class'
 export const shopperSchema = Type.Object(
   {
     id: Type.Number(),
-    text: Type.String()
+    auth0Id: Type.Optional(Type.String()),
+    text: Type.Optional(Type.String())
   },
   { $id: 'Shopper', additionalProperties: false }
 )
@@ -22,7 +23,7 @@ export const shopperResolver = resolve<ShopperQuery, HookContext<ShopperService>
 export const shopperExternalResolver = resolve<Shopper, HookContext<ShopperService>>({})
 
 // Schema for creating new entries
-export const shopperDataSchema = Type.Pick(shopperSchema, ['text'], {
+export const shopperDataSchema = Type.Pick(shopperSchema, ['auth0Id'], {
   $id: 'ShopperData'
 })
 export type ShopperData = Static<typeof shopperDataSchema>
@@ -38,7 +39,7 @@ export const shopperPatchValidator = getValidator(shopperPatchSchema, dataValida
 export const shopperPatchResolver = resolve<ShopperPatch, HookContext<ShopperService>>({})
 
 // Schema for allowed query properties
-export const shopperQueryProperties = Type.Pick(shopperSchema, ['id', 'text'])
+export const shopperQueryProperties = Type.Pick(shopperSchema, ['id', 'auth0Id'])
 export const shopperQuerySchema = Type.Intersect(
   [
     querySyntax(shopperQueryProperties),
@@ -49,4 +50,14 @@ export const shopperQuerySchema = Type.Intersect(
 )
 export type ShopperQuery = Static<typeof shopperQuerySchema>
 export const shopperQueryValidator = getValidator(shopperQuerySchema, queryValidator)
-export const shopperQueryResolver = resolve<ShopperQuery, HookContext<ShopperService>>({})
+export const shopperQueryResolver = resolve<ShopperQuery, HookContext<ShopperService>>({
+  // If there is a user (e.g. with authentication), they are only allowed to see their own data
+  id: async (value, user, context) => {
+    console.log(context)
+    // if (context.params.user) {
+    //   return context.params.user.id
+    // }
+
+    return value
+  }
+})

@@ -8,5 +8,27 @@
   "paginate": {
     "default": 10,
     "max": 50
+  },
+  "authentication": {
+    "entity": "shopper",
+    "service": "shoppers",
+    "secret": "vVv+I2j0BBbdW1qr9MGf3HoW+5Yn6O1x",
+    "authStrategies": [
+      "jwt"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "oauth": {
+      "auth0": {
+        "key": "<Client ID>",
+        "secret": "<Client secret>"
+      }
+    }
   }
 }

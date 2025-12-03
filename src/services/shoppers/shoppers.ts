@@ -35,11 +35,13 @@ export const shopper = (app: Application) => {
   // Initialize hooks
   app.service(shopperPath).hooks({
     around: {
-      all: [
-        authenticate('jwt'),
-        schemaHooks.resolveExternal(shopperExternalResolver),
-        schemaHooks.resolveResult(shopperResolver)
-      ]
+      all: [schemaHooks.resolveExternal(shopperExternalResolver), schemaHooks.resolveResult(shopperResolver)],
+      find: [authenticate('jwt')],
+      get: [authenticate('jwt')],
+      create: [],
+      update: [authenticate('jwt')],
+      patch: [authenticate('jwt')],
+      remove: [authenticate('jwt')]
     },
     before: {
       all: [schemaHooks.validateQuery(shopperQueryValidator), schemaHooks.resolveQuery(shopperQueryResolver)],

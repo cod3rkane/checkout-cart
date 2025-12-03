@@ -9,15 +9,13 @@ import express, {
   notFound,
   errorHandler
 } from '@feathersjs/express'
-import configuration from '@feathersjs/configuration';
+import configuration from '@feathersjs/configuration'
 
-
-
-
-import type { Application } from './declarations';
+import type { Application } from './declarations'
 import { configurationValidator } from './configuration'
 import { logger } from './logger'
 import { logError } from './hooks/log-error'
+import { authentication } from './authentication'
 import { services } from './services/index'
 
 const app: Application = express(feathers())
@@ -33,6 +31,7 @@ app.use('/', serveStatic(app.get('public')))
 // Configure services and real-time functionality
 app.configure(rest())
 
+app.configure(authentication)
 app.configure(services)
 
 // Configure a middleware for 404s and the error handler
