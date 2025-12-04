@@ -16,13 +16,19 @@ This project uses [Feathers](http://feathersjs.com). An open source framework fo
     npm install
     ```
 
-3. Start your app
+3. Start app
 
     ```
     npm run compile # Compile TypeScript source
-    npm run migrate # Run migrations to set up the database
     npm start
     ```
+
+3.2 Start app in development mode
+
+    ```
+    npm dev
+    ```
+
 
 ## Testing
 
