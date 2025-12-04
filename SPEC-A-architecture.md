@@ -7,14 +7,20 @@
 - **TypeBox** for schema modeling and validation
 >This repository contains **only the backend**—no client application is included. For this minimal setup, **no database** was chosen. All source code can be found at `/src`  folder, and all tests at `/test`.
 
+---
+
 #### Constraints & assumptions
 - **Salesforce Basket context is non-persistent**: SF may drop cart state between calls. We must design to rehydrate or replay required context on demand.
 - **Security**: Requests should be validated using JWT Token (Bearer JWT), SF also uses JWT Token. We have to manage both within our app.
+
+---
 
 #### High-level Architecture
 - **Experience API**: Exposing REST/JSON end-points for `/checkout` flow.
 - **SalesforceAdapter:** `SalesforceCartClient` an interface that encapsulates all calls to Salesforce. It hides SF API versions and implements retry/backoff and corrective rehydration logic.
 - **Audit & Observability**: In a real world application, we would use `Sentry` or `DataDog` to store this data. For now, we are gonna stick with the built in `log-error.ts` hook to get this info.
+
+---
 
 #### Key Abstractions — SOLID Architecture & Implementation Instructions for Claude Code
 > Below is the formal specification for the core abstractions that must be implemented.  
@@ -30,6 +36,8 @@ All services must follow the folder convention:
 
 The base example folder is:  
 `/src/services/shoppers/`
+
+---
 
 #### **1. SalesforceCartClient (Low-Level API Client)**
 
@@ -104,15 +112,21 @@ They must not directly call Salesforce APIs; instead they must rely solely on th
 - All DTOs must use TypeBox schemas.
 - Each method must validate its inputs via schema before invoking the client.
 
+---
+
 #### API Diagram for what we have seen so far:
 This figure illustrates the end-to-end sequence flow between a Shopper, a Checkout Application, the Salesforce SLAS API, and Salesforce Shopper APIs during a typical checkout lifecycle. It shows how each system interacts during key actions: opening the checkout page, displaying products, modifying the basket, and submitting an order.
 ![Figure 1](https://github.com/cod3rkane/checkout-cart/blob/main/public/Checkout-API.png?raw=true)
 Figure 1
 
+---
+
 #### Folder Structure Explained 
 A FeathersJS application normally has the following folders under `/src`.  
 Each folder plays a specific role in organizing services, configuration, hooks, and application logic.
 **Note:** This project omits the `src/models` folder because it does not use a database.
+
+---
 
 #### **`/src/app.ts`**
 The main application bootstrap file.
@@ -126,12 +140,16 @@ Responsible for:
 - Exporting the final initialized app
 This is the heart of the Feathers application.
 
+---
+
 #### **`/src/index.ts`**
 The application entry point.  
 It typically:
 - Imports the app from `app.ts`
 - Starts the HTTP server
 - Handles startup logging and error handling
+
+---
 
 #### **`/src/services`**
 Contains all the service definitions.  
@@ -154,6 +172,8 @@ Each Feathers "service" is usually organized into its own folder, e.g.:
 - **`*.schema.ts`** → (optional but common) TypeBox schema definitions
 - **`*.hooks.ts`** → (optional) hooks applied before/after service methods
 
+---
+
 #### **`/src/hooks`**
 Contains reusable hooks that can be shared across services, such as:
 - authorization hooks
@@ -167,12 +187,16 @@ Example:
 /src/hooks/log-error.ts
 ```
 
+---
+
 #### **`/config`**
 Configuration files such as:
 - default application config
 - environment-specific config overrides
 - CORS setup
 - REST/WebSocket setup
+
+---
 
 #### **`/src/utils`**
 A place for helpers and shared utilities such as:
