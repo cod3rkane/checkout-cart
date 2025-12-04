@@ -26,7 +26,7 @@ This project uses [Feathers](http://feathersjs.com). An open source framework fo
 4. Start app in development mode
 
     ```
-    npm dev
+    npm run dev
     ```
 
 
