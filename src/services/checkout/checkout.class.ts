@@ -19,17 +19,20 @@ export class CheckoutService {
 
   // These are not standard Feathers methods, but custom ones.
   // We will expose them via custom routes.
-  async getBasket(params: Params): Promise<Basket> {
-    const { organizationId, basketId } = params.query || {}
+  async getBasket(id: NullableId, data: any, params?: Params): Promise<Basket> {
+    if (params) {
+      const { organizationId, basketId } = params.query || {}
 
-    if (!organizationId) {
-      throw new BadRequest('organizationId is required')
-    }
-    if (!basketId) {
-      throw new BadRequest('basketId is required')
+      if (!organizationId) {
+        throw new BadRequest('organizationId is required')
+      }
+      if (!basketId) {
+        throw new BadRequest('basketId is required')
+      }
+
+      return this.salesforceCartClient.getBaskets(organizationId, basketId)
     }
 
-    return this.salesforceCartClient.getBaskets(organizationId, basketId)
   }
 
   async removeItems(id: string, params: Params): Promise<Basket> {

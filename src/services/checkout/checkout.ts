@@ -18,7 +18,7 @@ import type { Application } from '../../declarations'
 import { CheckoutService, getOptions } from './checkout.class'
 
 export const checkoutPath = 'checkout'
-export const checkoutMethods: Array<keyof CheckoutService> = ['find', 'get', 'create', 'patch', 'remove']
+export const checkoutMethods: Array<keyof CheckoutService> = ['find', 'get', 'create', 'patch', 'remove', 'getBasket', 'removeItems', 'patchItems', 'placeOrder']
 
 export * from './checkout.class'
 export * from './checkout.schema'

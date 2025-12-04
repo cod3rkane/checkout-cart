@@ -12,7 +12,7 @@
   "authentication": {
     "entity": "shopper",
     "service": "shoppers",
-    "secret": "vVv+I2j0BBbdW1qr9MGf3HoW+5Yn6O1x",
+    "secret": "a-string-secret-at-least-256-bits-long",
     "authStrategies": [
       "jwt"
     ],
