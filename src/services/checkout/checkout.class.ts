@@ -29,22 +29,23 @@ export class CheckoutService<
     this.salesforceCartClient = options.salesforceCartClient
   }
 
-  async getBasket(id: NullableId, data: any, params?: ServiceParams): Promise<Basket> {
-    console.log(params)
+  async getBasket(id: Id, params?: ServiceParams): Promise<Basket> {
+    console.log('getBasket called with effectiveParams:', params)
 
-    // if (params) {
-    //   const { organizationId, basketId } = params.query || {}
+    if (params) {
+      const { organizationId, basketId } = {organizationId: '123', basketId: '123'}
 
-    //   if (!organizationId) {
-    //     throw new BadRequest('organizationId is required')
-    //   }
-    //   if (!basketId) {
-    //     throw new BadRequest('basketId is required')
-    //   }
+      if (!organizationId) {
+        throw new BadRequest('organizationId is required')
+      }
+      if (!basketId) {
+        throw new BadRequest('basketId is required')
+      }
 
-    //   return this.salesforceCartClient.getBaskets(organizationId, basketId)
-    // }
+      return this.salesforceCartClient.getBaskets(organizationId, basketId)
+    }
 
+    throw new GeneralError('Could not resolve params in getBasket call')
   }
 
   async removeItems(id: string, params: ServiceParams): Promise<Basket> {
@@ -108,7 +109,7 @@ export class CheckoutService<
 
   async get(id: Id, params?: ServiceParams): Promise<Checkout> {
     console.log(params)
-    
+
     return {
       id: 0,
       text: `A new message with ID: ${id}!`
