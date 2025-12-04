@@ -20,6 +20,8 @@ export class CheckoutService {
   // These are not standard Feathers methods, but custom ones.
   // We will expose them via custom routes.
   async getBasket(id: NullableId, data: any, params?: Params): Promise<Basket> {
+    console.log(params)
+
     if (params) {
       const { organizationId, basketId } = params.query || {}
 
