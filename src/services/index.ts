@@ -4,7 +4,7 @@ import { shopper } from './shoppers/shoppers'
 import type { Application } from '../declarations'
 
 export const services = (app: Application) => {
-  app.configure(shopper)
   app.configure(checkout)
+  app.configure(shopper)
   // All services will be registered here
 }
