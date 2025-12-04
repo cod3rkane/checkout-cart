@@ -28,6 +28,9 @@ export class ShopperService<ServiceParams extends ShopperParams = ShopperParams>
   async get(id: Id, _params?: ServiceParams): Promise<Shopper> {
     return {
       id: 0,
+      basketId: 'a10ff320829cb0eef93ca5310a',
+      organizationId: 'cc6ef43f207bf64099288aec36',
+      accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6Imh0dHBzOi8veW91cmRvbWFpbi5jb20iLCJiYXNrZXRJZCI6ImExMGZmMzIwODI5Y2IwZWVmOTNjYTUzMTBhIiwib3JnYW5pemF0aW9uSWQiOiJjYzZlZjQzZjIwN2JmNjQwOTkyODhhZWMzNiIsImlhdCI6MTc2NDk1NjQxNX0.9_KGB4HFZYd72cwGkH2GnnkuL-hEbNdfIjIeAR4YrPI',
       text: `A new message with ID: ${id}!`
     }
   }
@@ -41,6 +44,9 @@ export class ShopperService<ServiceParams extends ShopperParams = ShopperParams>
 
     return {
       id: 0,
+      basketId: 'a10ff320829cb0eef93ca5310a',
+      organizationId: 'cc6ef43f207bf64099288aec36',
+      accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6Imh0dHBzOi8veW91cmRvbWFpbi5jb20iLCJiYXNrZXRJZCI6ImExMGZmMzIwODI5Y2IwZWVmOTNjYTUzMTBhIiwib3JnYW5pemF0aW9uSWQiOiJjYzZlZjQzZjIwN2JmNjQwOTkyODhhZWMzNiIsImlhdCI6MTc2NDk1NjQxNX0.9_KGB4HFZYd72cwGkH2GnnkuL-hEbNdfIjIeAR4YrPI',
       ...data
     }
   }
@@ -49,6 +55,9 @@ export class ShopperService<ServiceParams extends ShopperParams = ShopperParams>
   async update(id: NullableId, data: ShopperData, _params?: ServiceParams): Promise<Shopper> {
     return {
       id: 0,
+      basketId: 'a10ff320829cb0eef93ca5310a',
+      organizationId: 'cc6ef43f207bf64099288aec36',
+      accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6Imh0dHBzOi8veW91cmRvbWFpbi5jb20iLCJiYXNrZXRJZCI6ImExMGZmMzIwODI5Y2IwZWVmOTNjYTUzMTBhIiwib3JnYW5pemF0aW9uSWQiOiJjYzZlZjQzZjIwN2JmNjQwOTkyODhhZWMzNiIsImlhdCI6MTc2NDk1NjQxNX0.9_KGB4HFZYd72cwGkH2GnnkuL-hEbNdfIjIeAR4YrPI',
       ...data
     }
   }
@@ -56,6 +65,9 @@ export class ShopperService<ServiceParams extends ShopperParams = ShopperParams>
   async patch(id: NullableId, data: ShopperPatch, _params?: ServiceParams): Promise<Shopper> {
     return {
       id: 0,
+      basketId: 'a10ff320829cb0eef93ca5310a',
+      organizationId: 'cc6ef43f207bf64099288aec36',
+      accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6Imh0dHBzOi8veW91cmRvbWFpbi5jb20iLCJiYXNrZXRJZCI6ImExMGZmMzIwODI5Y2IwZWVmOTNjYTUzMTBhIiwib3JnYW5pemF0aW9uSWQiOiJjYzZlZjQzZjIwN2JmNjQwOTkyODhhZWMzNiIsImlhdCI6MTc2NDk1NjQxNX0.9_KGB4HFZYd72cwGkH2GnnkuL-hEbNdfIjIeAR4YrPI',
       text: `Fallback for ${id}`,
       ...data
     }
@@ -64,6 +76,9 @@ export class ShopperService<ServiceParams extends ShopperParams = ShopperParams>
   async remove(id: NullableId, _params?: ServiceParams): Promise<Shopper> {
     return {
       id: 0,
+      basketId: 'a10ff320829cb0eef93ca5310a',
+      organizationId: 'cc6ef43f207bf64099288aec36',
+      accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6Imh0dHBzOi8veW91cmRvbWFpbi5jb20iLCJiYXNrZXRJZCI6ImExMGZmMzIwODI5Y2IwZWVmOTNjYTUzMTBhIiwib3JnYW5pemF0aW9uSWQiOiJjYzZlZjQzZjIwN2JmNjQwOTkyODhhZWMzNiIsImlhdCI6MTc2NDk1NjQxNX0.9_KGB4HFZYd72cwGkH2GnnkuL-hEbNdfIjIeAR4YrPI',
       text: 'removed'
     }
   }

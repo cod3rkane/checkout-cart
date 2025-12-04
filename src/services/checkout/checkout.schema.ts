@@ -11,6 +11,7 @@ import type { CheckoutService } from './checkout.class'
 export const checkoutSchema = Type.Object(
   {
     id: Type.Number(),
+    itemId: Type.Optional(Type.String()),
     text: Type.String()
   },
   { $id: 'Checkout', additionalProperties: false }
@@ -36,6 +37,14 @@ export const checkoutPatchSchema = Type.Partial(checkoutSchema, {
 export type CheckoutPatch = Static<typeof checkoutPatchSchema>
 export const checkoutPatchValidator = getValidator(checkoutPatchSchema, dataValidator)
 export const checkoutPatchResolver = resolve<CheckoutPatch, HookContext<CheckoutService>>({})
+
+// Schema for Remove existing entries
+export const checkoutRemoveItemSchema = Type.Pick(checkoutSchema, ['itemId'], {
+  $id: 'CheckoutRemoveItem'
+})
+export type CheckoutRemoveItem = Static<typeof checkoutRemoveItemSchema>
+export const checkoutRemoveItemValidator = getValidator(checkoutRemoveItemSchema, dataValidator)
+export const checkoutRemoveItemResolver = resolve<CheckoutRemoveItem, HookContext<CheckoutService>>({})
 
 // Schema for allowed query properties
 export const checkoutQueryProperties = Type.Pick(checkoutSchema, ['id', 'text'])

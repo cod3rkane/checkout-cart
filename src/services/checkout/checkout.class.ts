@@ -3,7 +3,7 @@ import type { Id, NullableId, Params, ServiceInterface } from '@feathersjs/feath
 import { BadRequest, GeneralError } from '@feathersjs/errors'
 
 import type { Application } from '../../declarations'
-import type { Checkout, CheckoutData, CheckoutPatch, CheckoutQuery } from './checkout.schema'
+import type { Checkout, CheckoutData, CheckoutPatch, CheckoutQuery, CheckoutRemoveItem } from './checkout.schema'
 import { MockSalesforceCartClient, SalesforceCartClient } from '../salesforceCartClient/salesforce.class'
 
 export type { Checkout, CheckoutData, CheckoutPatch, CheckoutQuery }
@@ -30,77 +30,75 @@ export class CheckoutService<
   }
 
   async getBasket(id: Id, params?: ServiceParams): Promise<Basket> {
-    console.log('getBasket called with effectiveParams:', params)
-
     if (params) {
-      const { organizationId, basketId } = {organizationId: '123', basketId: '123'}
-
-      if (!organizationId) {
+      if (!params.shopper?.organizationId) {
         throw new BadRequest('organizationId is required')
       }
-      if (!basketId) {
+
+      if (!params.shopper?.basketId) {
         throw new BadRequest('basketId is required')
       }
 
-      return this.salesforceCartClient.getBaskets(organizationId, basketId)
+      return this.salesforceCartClient.getBaskets(params.shopper?.organizationId, params.shopper?.basketId)
     }
 
     throw new GeneralError('Could not resolve params in getBasket call')
   }
 
-  async removeItems(id: string, params: ServiceParams): Promise<Basket> {
-    // const { organizationId, basketId } = params.query || {}
-    // const itemId = id
+  async removeItems(data: CheckoutRemoveItem, params: ServiceParams): Promise<Basket> {
+    if (params) {
+      if (!params.shopper?.organizationId) {
+        throw new BadRequest('organizationId is required')
+      }
 
-    // if (!organizationId) {
-    //   throw new BadRequest('organizationId is required')
-    // }
-    // if (!basketId) {
-    //   throw new BadRequest('basketId is required')
-    // }
-    // if (!itemId) {
-    //   throw new BadRequest('itemId is required')
-    // }
+      if (!params.shopper?.basketId) {
+        throw new BadRequest('basketId is required')
+      }
 
-    // return this.salesforceCartClient.deleteBasketItems(organizationId, basketId, itemId)
+      if (!data.itemId) {
+        throw new BadRequest('itemId is required')
+      }
+
+      return this.salesforceCartClient.deleteBasketItems(params.shopper?.organizationId, params.shopper?.basketId, data.itemId)
+    }
+
+    throw new GeneralError('Could not resolve params in removeItems call')
   }
 
-  async patchItems(id: NullableId, data: any, params?: ServiceParams): Promise<Basket> {
-    console.log({ data, params })
-    // if (params) {
-    //   const { organizationId, basketId } = params.query || { organizationId: 'test', basketId: 'test' }
-    //   const itemId = id?.toString()
-    //   const { itemObject } = data
+  async patchItems(data: CheckoutRemoveItem, params: ServiceParams): Promise<Basket> {
+    if (params) {
+      if (!params.shopper?.organizationId) {
+        throw new BadRequest('organizationId is required')
+      }
 
-    //   if (!organizationId) {
-    //     throw new BadRequest('organizationId is required')
-    //   }
-    //   if (!basketId) {
-    //     throw new BadRequest('basketId is required')
-    //   }
-    //   if (!itemId) {
-    //     throw new BadRequest('itemId is required')
-    //   }
-    //   if (!itemObject) {
-    //     throw new BadRequest('itemObject is required in the body')
-    //   }
+      if (!params.shopper?.basketId) {
+        throw new BadRequest('basketId is required')
+      }
 
-    //   return this.salesforceCartClient.patchBasketItems(organizationId, basketId, itemId, itemObject)
-    // }
+      if (!data.itemId) {
+        throw new BadRequest('itemId is required')
+      }
 
+      return this.salesforceCartClient.patchBasketItems(params.shopper?.organizationId, params.shopper?.basketId, data.itemId, data)
+    }
+
+    throw new GeneralError('Could not resolve params in patchItems call')
   }
 
-  async placeOrder(data: {}, params: ServiceParams): Promise<SubmittedOrder> {
-    // const { organizationId, basketId } = params.query || {}
+  async placeOrder(id: NullableId, params: ServiceParams): Promise<SubmittedOrder> {
+     if (params) {
+      if (!params.shopper?.organizationId) {
+        throw new BadRequest('organizationId is required')
+      }
 
-    // if (!organizationId) {
-    //   throw new BadRequest('organizationId is required')
-    // }
-    // if (!basketId) {
-    //   throw new BadRequest('basketId is required')
-    // }
+      if (!params.shopper?.basketId) {
+        throw new BadRequest('basketId is required')
+      }
 
-    // return this.salesforceCartClient.placeOrder(organizationId, basketId)
+       return this.salesforceCartClient.placeOrder(params.shopper?.organizationId, params.shopper?.basketId)
+    }
+
+    throw new GeneralError('Could not resolve place the order in placeOrder call')
   }
 
   async find(_params?: ServiceParams): Promise<Checkout[]> {

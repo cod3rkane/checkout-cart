@@ -11,6 +11,9 @@ import type { ShopperService } from './shoppers.class'
 export const shopperSchema = Type.Object(
   {
     id: Type.Number(),
+    basketId: Type.String(),
+    organizationId: Type.String(),
+    accessToken: Type.String(),
     auth0Id: Type.Optional(Type.String()),
     text: Type.Optional(Type.String())
   },
