@@ -8,9 +8,8 @@ import { MockSalesforceCartClient, SalesforceCartClient } from '../salesforceCar
 
 export type { Checkout, CheckoutData, CheckoutPatch, CheckoutQuery }
 
-type Basket = any
-type SubmittedOrder = any
-
+export type Basket = any
+export type SubmittedOrder = any
 
 export interface CheckoutServiceOptions {
   app: Application
