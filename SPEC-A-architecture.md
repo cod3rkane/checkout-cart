@@ -107,6 +107,7 @@ They must not directly call Salesforce APIs; instead they must rely solely on th
 #### API Diagram for what we have seen so far:
 This figure illustrates the end-to-end sequence flow between a Shopper, a Checkout Application, the Salesforce SLAS API, and Salesforce Shopper APIs during a typical checkout lifecycle. It shows how each system interacts during key actions: opening the checkout page, displaying products, modifying the basket, and submitting an order.
 ![Figure 1](https://github.com/cod3rkane/checkout-cart/blob/main/public/Checkout-API.png?raw=true)
+
 Figure 1
 
 #### Folder Structure Explained 
