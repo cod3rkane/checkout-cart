@@ -37,6 +37,8 @@ $ npx feathers help                           # Show all commands
 $ npx feathers generate service               # Generate a new Service
 ```
 
-## Help
-
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
+## References
+- [SalesForce B2C Commerce API](https://developer.salesforce.com/docs/commerce/commerce-api/references/shopper-products?meta=Summary).
+- [SalesForce Shopper Login API](https://developer.salesforce.com/docs/commerce/commerce-api/references/shopper-login?meta=getAccessToken).
+- [SalesForce Basket V2 API](https://developer.salesforce.com/docs/commerce/commerce-api/references/shopper-baskets-v2?meta=getBasket).
+- [SalesForce Quick Start: B2C Commerce API](https://developer.salesforce.com/docs/commerce/commerce-api/guide/api-and-sdk-demo.html).
