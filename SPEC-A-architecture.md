@@ -16,28 +16,98 @@
 - **SalesforceAdapter:** `SalesforceCartClient` an interface that encapsulates all calls to Salesforce. It hides SF API versions and implements retry/backoff and corrective rehydration logic.
 - **Audit & Observability**: In a real world application, we would use `Sentry` or `DataDog` to store this data. For now, we are gonna stick with the built in `log-error.ts` hook to get this info.
 
-#### Key abstractions (code-facing)
-> The following interfaces and modules should be implemented by Claude Code. Using `/src/services/shoppers` as base to all Services Implementation.
+#### Key Abstractions — SOLID Architecture & Implementation Instructions for Claude Code
+> Below is the formal specification for the core abstractions that must be implemented.  
+All implementation must follow **SOLID principles**, especially:
+- **S**ingle Responsibility: Each module handles only one responsibility.
+- **O**pen/Closed: Services should be extendable without modifying core logic.
+- **L**iskov Substitution: Abstractions should be replaceable with mocks/fakes.
+- **I**nterface Segregation: Keep interfaces small and purpose-built.
+- **D**ependency Inversion: Higher-level services depend on abstractions, not concrete HTTP clients.
 
-- **SalesforceCartClient**: it should live inside `/src/services/salesforceCartClient/salesforce.class.ts` with the following async methods: 
-	- getAccessToken(organizationId): Returns JWT access token and refresh token for SalesForce calls
-	- getBaskets(organizationId, basketId): Returns a Basket JSON
-	- deleteBasketItems(organizationId, basketId, itemId): Returns Basket JSON updated
-	- patchBasketItems(organizationId, basketId, itemId, itemObject): Returns Basket JSON Updated
-	- placeOrder(organizationId, basketId): Response Submitted Order JSON
-- **Checkout**: This services must be created using: `npx feathers generate service` command, with the following: 
-	- Service name: checkout
-	- Path to be registed on: checkout
-	- Authentication: Yes
-	- Database: A custom service
-	- Schema: TypeBox
-	- On top of this Service, we're gonna generate the following new methods:
-		- removeItems(itemId): Returns Basket JSON
-		- patchBasketItems(itemId, itemObject): Returns Basket JSON Updated
-		- placeOrder(): Returns Submitted Order JSON
+All services must follow the folder convention:  
+`/src/services/<serviceName>/`
+
+The base example folder is:  
+`/src/services/shoppers/`
+
+#### **1. SalesforceCartClient (Low-Level API Client)**
+
+**Purpose (SRP):**  
+A dedicated client responsible solely for communicating with Salesforce APIs.  
+No business logic, no Feathers dependencies.
+
+**Location:**  
+`/src/services/salesforceCartClient/salesforce.class.ts`
+
+**Required Public Methods:**  
+Each method must be `async` and return parsed JSON.
+
+### **Interface**
+
+```jsx
+interface SalesforceCartClient {
+getAccessToken(organizationId: string): Promise<{ access_token: string; refresh_token: string }>;
+getBaskets(organizationId: string, basketId: string): Promise<Basket>;
+deleteBasketItems(organizationId: string, basketId: string, itemId: string): Promise<Basket>;
+patchBasketItems(organizationId: string, basketId: string,itemId: string,     itemObject: Record<string, any>): Promise<Basket>;
+placeOrder(organizationId: string, basketId: string): Promise<SubmittedOrder>;
+}
+```
+
+#### **Implementation Requirements**
+- Use dependency injection for HTTP client (DIP).
+- No Feathers imports.
+- No state stored inside the class beyond constructor DI.
+- Error handling must normalize SF API errors into Feathers-ready exceptions.
+
+#### **2. Checkout Service (High-Level Orchestration Layer)**
+
+**Purpose (SRP):**  
+Implements business operations for checkout, using the `SalesforceCartClient` underneath.
+
+**Location:**  
+Generated via Feathers CLI, then extended:
+`npx feathers generate service`
+
+**Configuration required:**
+- **Service name:** `checkout`
+- **Registration path:** `/checkout`
+- **Authentication:** `yes`
+- **Database:** `custom service`
+- **Schema:** `TypeBox`
+
+The generated folder will be:  
+`/src/services/checkout/`
+
+#### **3. Additional Methods to Add to the Checkout Service**
+These methods extend the Feathers service class.  
+They must not directly call Salesforce APIs; instead they must rely solely on the `SalesforceCartClient` abstraction (DIP).
+##### **Methods**
+##### **removeItems(itemId: string): Promise<Basket>**
+- Uses SalesforceCartClient.deleteBasketItems
+- Returns updated Basket JSON
+- No UI logic—pure data operation
+
+#### **patchBasketItems(itemId: string, itemObject: object): Promise<Basket>**
+- Uses SalesforceCartClient.patchBasketItems
+- Returns updated Basket JSON
+
+#### **placeOrder(): Promise<SubmittedOrder>**
+- Uses SalesforceCartClient.placeOrder
+- Returns the final order JSON
+
+### **Implementation Requirements**
+- Checkout service must accept SalesforceCartClient in its constructor (DIP).
+- Checkout service must not perform HTTP calls itself.
+- No Salesforce API URLs inside checkout service.
+- All DTOs must use TypeBox schemas.
+- Each method must validate its inputs via schema before invoking the client.
 
 #### API Diagram for what we have seen so far:
-![API Diagram](https://github.com/cod3rkane/checkout-cart/blob/main/public/Checkout-API.png?raw=true)
+This figure illustrates the end-to-end sequence flow between a Shopper, a Checkout Application, the Salesforce SLAS API, and Salesforce Shopper APIs during a typical checkout lifecycle. It shows how each system interacts during key actions: opening the checkout page, displaying products, modifying the basket, and submitting an order.
+![Figure 1](https://github.com/cod3rkane/checkout-cart/blob/main/public/Checkout-API.png?raw=true)
+Figure 1
 
 #### Folder Structure Explained 
 A FeathersJS application normally has the following folders under `/src`.  
