@@ -11,6 +11,7 @@
   },
   "authentication": {
     "entity": "shopper",
+    "entityId": "id",
     "service": "shoppers",
     "secret": "a-string-secret-at-least-256-bits-long",
     "authStrategies": [
