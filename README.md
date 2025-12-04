@@ -23,7 +23,7 @@ This project uses [Feathers](http://feathersjs.com). An open source framework fo
     npm start
     ```
 
-3.2 Start app in development mode
+4. Start app in development mode
 
     ```
     npm dev
